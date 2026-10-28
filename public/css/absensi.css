@@ -1,0 +1,754 @@
+/* ==========================================================================
+   Hadir. — Absensi Mahasiswa
+   Gaya: glassmorphism tenang. Biru, abu-abu, putih.
+   Tanpa gradient warna mencolok, tanpa badge dekoratif.
+   ========================================================================== */
+
+:root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --ink: #111827;
+    --muted: #6b7280;
+    --muted-2: #9ca3af;
+    --line: #d9dee7;
+
+    --blue: #2563eb;
+    --blue-dark: #1d4ed8;
+    --blue-weak: #e8efff;
+
+    --glass: rgba(255, 255, 255, 0.55);
+    --glass-strong: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.85);
+
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.05);
+
+    --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    color: var(--ink);
+    background-color: var(--bg);
+    background-image: radial-gradient(rgba(100, 116, 139, 0.18) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+}
+
+/* ------------------------------ Latar kaca -------------------------------- */
+.blobs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.blob-a {
+    width: 360px;
+    height: 360px;
+    top: 8%;
+    right: 6%;
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.blob-b {
+    width: 300px;
+    height: 300px;
+    top: 48%;
+    left: -6%;
+    background: rgba(148, 163, 184, 0.2);
+}
+
+.blob-c {
+    display: none;
+}
+
+/* ------------------------------- Utilities -------------------------------- */
+.container {
+    position: relative;
+    z-index: 1;
+    width: min(1020px, calc(100% - 32px));
+    margin-inline: auto;
+    padding-bottom: 40px;
+}
+
+.glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: blur(18px) saturate(120%);
+    backdrop-filter: blur(18px) saturate(120%);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.btn-primary {
+    color: var(--surface);
+    background: var(--blue);
+}
+
+.btn-primary:hover {
+    background: var(--blue-dark);
+}
+
+.btn-ghost {
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.6);
+    border-color: var(--line);
+}
+
+.btn-ghost:hover {
+    background: var(--surface);
+    border-color: #c3cad6;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+}
+
+/* -------------------------------- Navbar --------------------------------- */
+.nav-wrap {
+    position: relative;
+    z-index: 2;
+    padding: 20px 0 24px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: min(1020px, calc(100% - 32px));
+    margin-inline: auto;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--glass-strong);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brand small {
+    display: block;
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    color: var(--surface);
+    background: var(--blue);
+}
+
+.brand-mark svg {
+    width: 18px;
+    height: 18px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-user {
+    margin-right: 4px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* -------------------------------- Footer --------------------------------- */
+.footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: min(1020px, calc(100% - 32px));
+    margin: 8px auto 0;
+    padding: 16px 2px 26px;
+    border-top: 1px solid var(--line);
+    color: var(--muted-2);
+    font-size: 0.74rem;
+}
+
+/* --------------------------------- Auth ---------------------------------- */
+.auth {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    justify-content: center;
+    padding: 36px 0 52px;
+}
+
+/* Bentuk solid di belakang kartu agar blur kaca terlihat. */
+.auth::before,
+.auth::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth::before {
+    width: 300px;
+    height: 300px;
+    top: 4%;
+    left: calc(50% - 330px);
+    background: rgba(37, 99, 235, 0.16);
+    filter: blur(10px);
+}
+
+.auth::after {
+    width: 260px;
+    height: 260px;
+    right: calc(50% - 330px);
+    bottom: 0;
+    background: rgba(100, 116, 139, 0.16);
+    filter: blur(10px);
+}
+
+.auth-card {
+    position: relative;
+    z-index: 1;
+    width: min(420px, 100%);
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.46);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+    -webkit-backdrop-filter: blur(22px) saturate(120%);
+    backdrop-filter: blur(22px) saturate(120%);
+}
+
+.auth-head {
+    margin-bottom: 24px;
+}
+
+.auth-head h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.5rem, 3vw, 1.85rem);
+    letter-spacing: -0.03em;
+}
+
+.auth-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+.field {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 16px;
+}
+
+.field label {
+    color: #374151;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.field .hint {
+    color: var(--muted-2);
+    font-size: 0.72rem;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #cbd2dc;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--ink);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.input::placeholder {
+    color: var(--muted-2);
+}
+
+.input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.input-wrap .input {
+    padding-right: 48px;
+}
+
+.toggle-pass {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+}
+
+.toggle-pass:hover {
+    background: #eef1f5;
+    color: var(--ink);
+}
+
+.toggle-pass svg {
+    width: 17px;
+    height: 17px;
+}
+
+.switch {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.switch a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.demo {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(148, 163, 184, 0.3);
+    color: var(--muted);
+    font-size: 0.76rem;
+    text-align: center;
+}
+
+.demo strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* -------------------------------- Alert ---------------------------------- */
+.alert {
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--muted-2);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #374151;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.alert ul {
+    margin: 0;
+    padding-left: 16px;
+}
+
+.alert-success {
+    border-left-color: var(--blue);
+}
+
+/* ------------------------------- Dashboard ------------------------------- */
+.page-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 4px 2px 20px;
+}
+
+.page-head h1 {
+    margin: 0 0 4px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.03em;
+}
+
+.page-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.head-stat {
+    text-align: right;
+}
+
+.head-stat strong {
+    display: block;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    color: var(--blue);
+}
+
+.head-stat span {
+    color: var(--muted);
+    font-size: 0.74rem;
+}
+
+/* Kartu absensi hari ini */
+.today {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px;
+    margin-bottom: 16px;
+}
+
+.today .label {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.today h2 {
+    margin: 8px 0 6px;
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+    letter-spacing: -0.03em;
+}
+
+.today p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.today-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.status-icon {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--muted);
+}
+
+.status-icon svg {
+    width: 38px;
+    height: 38px;
+}
+
+.status-icon.is-hadir {
+    color: var(--blue);
+    background: var(--blue-weak);
+    border-color: #cdddfb;
+}
+
+.status-icon.is-absent {
+    color: #4b5563;
+    background: #f1f3f6;
+}
+
+/* Status text (bukan badge) */
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #374151;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.status.is-hadir {
+    color: var(--blue);
+}
+
+.status.is-absent {
+    color: #6b7280;
+}
+
+.count {
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+/* Rekap */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.summary-card {
+    padding: 18px;
+}
+
+.summary-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.74rem;
+    font-weight: 500;
+}
+
+.summary-card strong {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+}
+
+.summary-card small {
+    margin-left: 4px;
+    color: var(--muted-2);
+    font-size: 0.72rem;
+}
+
+/* Riwayat */
+.history {
+    padding: 22px;
+}
+
+.history-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.history-head h2 {
+    margin: 0 0 4px;
+    font-size: 0.98rem;
+    letter-spacing: -0.02em;
+}
+
+.history-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.76rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 440px;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+}
+
+th {
+    padding: 9px 10px;
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px 10px;
+    color: #374151;
+    border-bottom: 1px solid #e7ebf1;
+    white-space: nowrap;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+td:first-child {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+/* Empty state */
+.empty {
+    padding: 32px 16px;
+    color: var(--muted);
+    font-size: 0.84rem;
+    text-align: center;
+}
+
+.empty strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-size: 0.92rem;
+}
+
+.empty p {
+    margin: 0;
+}
+
+/* ------------------------------ Responsive ------------------------------- */
+@media (max-width: 760px) {
+    .brand small {
+        display: none;
+    }
+
+    .nav-user {
+        display: none;
+    }
+
+    .today {
+        align-items: flex-start;
+        padding: 22px;
+    }
+
+    .today-side {
+        margin-left: auto;
+    }
+
+    .status-icon {
+        width: 68px;
+        height: 68px;
+        border-radius: 14px;
+    }
+
+    .status-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 14px 16px;
+    }
+
+    .summary-card strong {
+        margin-top: 0;
+    }
+
+    .auth-card {
+        padding: 24px 20px;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 420px) {
+    .nav-actions .btn-ghost {
+        display: none;
+    }
+
+    .today {
+        flex-direction: column;
+    }
+
+    .today-side {
+        margin-left: 0;
+    }
+
+    .today-actions,
+    .today-actions form,
+    .today-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
